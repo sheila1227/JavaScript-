@@ -1,0 +1,124 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>demo</title>
+<style>
+
+</style>
+</head>
+<body>
+<h1 align="center">节日提示</h1>
+
+<p id="today"></p>
+<p id="tip" style="color:red"></p>
+</div>
+
+
+
+<SCRIPT language=javascript>
+String.format = function ()
+{
+    var param = [];
+    for (var i = 0, l = arguments.length; i < l; i++)
+    {
+        param.push(arguments[i]);
+    }
+    var statment = param[0]; // get the first element(the original statement)
+    param.shift(); // remove the first element from array
+    return statment.replace(/\{(\d+)\}/g, function(m, n)
+    {
+        return param[n];
+    });
+}
+
+
+var week="日一二三四五六".split('');
+var today=new Date();
+var year=today.getFullYear();
+var month=today.getMonth()+1;
+var date=today.getDate();
+document.getElementById("today").innerHTML=String.format("今天是{0}年{1}月{2}日 星期{3}",year,month,date,week[today.getDay()]);
+
+var may1=new Date(year,4,1);
+var mother=new Date(year,4,may1.getDate()+(7-may1.getDay())%7+7);
+var june1=new Date(year,5,1);
+var father=new Date(year,5,june1.getDate()+(7-june1.getDay())%7+14);
+var newyear=new Date(year,0,1);
+var lover=new Date(year,1,14);
+var woman=new Date(year,2,8);
+var labour=new Date(year,4,1);
+var youth=new Date(year,4,4);
+var child=new Date(year,5,1);
+var nation=new Date(year,9,1);
+var christmas=new Date(year,11,25);
+
+var tip;
+if(today==newyear){
+	tip="元旦节快乐！"
+}else if(today<lover){
+	tip="离情人节还有";
+	tip+=Math.ceil((lover.getTime() - today.getTime()) / 1000 / 3600 / 24 );
+	tip+="天";
+}
+else if(today.getTime()==lover.getTime()){
+	tip="情人节快乐!";
+}else if(today<woman){
+	tip="离妇女节还有";
+	tip+=Math.ceil((woman.getTime() - today.getTime()) / 1000 / 3600 / 24 );
+	tip+="天";
+}
+else if(today.getTime()==woman.getTime()){
+	tip="妇女节快乐!";
+}else if(today<labour){
+	tip="离劳动节还有";
+	tip+=Math.ceil((labour.getTime() - today.getTime()) / 1000 / 3600 / 24 );
+	tip+="天";
+}
+else if(today.getTime()==labour.getTime()){
+	tip="劳动节快乐!";
+}else if(today<youth){
+	tip="离青年节还有";
+	tip+=Math.ceil((youth.getTime() - today.getTime()) / 1000 / 3600 / 24 );
+	tip+="天";
+}
+else if(today.getTime()==youth.getTime()){
+	tip="青年节快乐!";
+}else if(today<mother){
+	tip="离母亲节还有";
+	tip+=Math.ceil((mother.getTime() - today.getTime()) / 1000 / 3600 / 24 );
+	tip+="天";
+}
+else if(today.getTime()==mother.getTime()){
+	tip="母亲节快乐!";
+}else if(today<child){
+	tip="离儿童节还有";
+	tip+=Math.ceil((child.getTime() - today.getTime()) / 1000 / 3600 / 24 );
+	tip+="天";
+}
+else if(today.getTime()==child.getTime()){
+	tip="儿童节快乐!";
+}else if(today<father){
+	tip="离父亲节还有";
+	tip+=Math.ceil((father.getTime() - today.getTime()) / 1000 / 3600 / 24 );
+	tip+="天";
+}
+else if(today.getTime()==father.getTime()){
+	tip="父亲节快乐!";
+}else if(today<nation){
+	tip="离国庆节还有";
+	tip+=Math.ceil((nation.getTime() - today.getTime()) / 1000 / 3600 / 24 );
+	tip+="天";
+}
+else if(today.getTime()==nation.getTime()){
+	tip="国庆节快乐!";
+}else if(today<christmas){
+	tip="离圣诞节还有";
+	tip+=Math.ceil((christmas.getTime() - today.getTime()) / 1000 / 3600 / 24 );
+	tip+="天";
+}else if(today.getTime()==christmas.getTime()){
+	tip="圣诞节快乐!";
+}
+document.getElementById("tip").innerHTML=tip;
+</SCRIPT>
+</body>
+</html>

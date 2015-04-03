@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Demo
+</title>
+<style>
+div{
+    background-color:green;
+    display: inline-block;
+    text-align: center;
+}
+table{
+    margin:auto;
+}
+	td{
+		width:50px;
+		height:50px;
+	}
+
+</style>
+</head>
+<body style="text-align: center">
+<h1>日历</h1>
+<div id="content">
+<select id="selYear" onchange="fillCalendar(selYear.value,selMonth.value)"></select>
+<select id="selMonth" onchange="fillCalendar(selYear.value,selMonth.value)"></select>
+<script type="text/javascript">
+	//加载年份和月份选项
+	var currentYear=new Date().getFullYear();
+	var currentMonth=new Date().getMonth();
+	var currentDate=new Date().getDate();
+	var allYears=document.getElementById("selYear");
+	var allMonths=document.getElementById("selMonth");
+	for(var i=1979;i<=currentYear+20;i++){
+		var opt=document.createElement("option");
+		opt.value=i;
+		opt.innerHTML=i+"年";
+		if(i==currentYear){
+			opt.selected="selected";
+		}
+		allYears.appendChild(opt);
+	}
+	for(var j=1;j<=12;j++){
+		var opt=document.createElement("option");
+		opt.value=j-1;
+		opt.innerHTML=j+"月";
+		if(j-1==currentMonth){
+			opt.selected="selected";
+		}
+		allMonths.appendChild(opt);
+	}
+
+	//画表格
+    function drawTable(){
+    	var table=document.createElement("table");
+
+    	//表头部分，占table第一行
+    	var tr=document.createElement("tr");
+    	var week="日一二三四五六日".split('');
+    	for(var i=0;i<7;i++){
+    		var th=document.createElement("th");
+    		th.innerHTML=week[i];
+    		tr.appendChild(th);
+    	}
+    	table.appendChild(tr);
+
+    	//日期部分，占其余六行
+    	for(var j=1;j<7;j++){
+    		var tr=document.createElement("tr");
+    		for(var k=0;k<7;k++){
+    			var td=document.createElement("td");
+    			tr.appendChild(td);
+    		}
+    		table.appendChild(tr);
+    	}
+    	document.getElementById("content").appendChild(table);
+    }
+
+    drawTable();
+
+
+    function fillCalendar(year,month){
+    	var lastDay=new Date(year,month+1,0).getDate();
+    	var firstWeekday=new Date(year,month,1).getDay();
+    	var table=document.getElementsByTagName("table")[0];
+    	var tempDay=1;
+    	//填充之前先清空上次填写结果
+    	for(var r=1;r<table.rows.length;r++){
+    		for(var c=0;c<table.rows[r].cells.length;c++){
+    			table.rows[r].cells[c].innerHTML='';
+    			table.rows[r].cells[c].style="";
+    		}
+    	}
+    	//首先填上第一周日期
+    	for(var i=firstWeekday;i<=6;i++){
+    		var cell=table.rows[1].cells[i];
+    		checkIfTodayAndMark(cell);
+    		cell.innerHTML=tempDay++;
+
+    	}
+    	//填上其余行
+    	for(var i=2;i<table.rows.length;i++){
+    		for(var j=0;j<table.rows[i].cells.length&&tempDay<=lastDay;j++){
+    			var cell=table.rows[i].cells[j];
+    			checkIfTodayAndMark(cell);
+    			cell.innerHTML=tempDay++;
+    		}
+    	}
+
+    	function checkIfTodayAndMark(cell){
+    		if(selYear.value==currentYear&&selMonth.value==currentMonth&&tempDay==currentDate){
+    			cell.style.backgroundColor="white";
+    		}
+    	}
+
+    }
+
+    fillCalendar(selYear.value,selMonth.value);
+</script>
+</div>
+</body>
+</html>

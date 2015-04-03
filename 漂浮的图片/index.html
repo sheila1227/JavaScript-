@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Demo
+</title>
+<style>
+body{
+	background-color: black;
+}
+
+#fly{
+	width:200px;
+	height:200px;
+}
+
+#fly{
+	position: absolute;
+	top:0px;
+	left:0px;
+}
+
+</style>
+</head>
+<body scroll="no">
+<img id="fly" src="fly.gif" alt="fly" onclick="resumeOrPause()" />
+
+
+<script>
+function changePosition(){
+	img.style.top=(imgPosY+document.body.scrollTop)+"px";
+	img.style.left=(imgPosX+document.body.scrollLeft)+"px";
+	imgPosX+=step*xFlag;
+	imgPosY+=step*yFlag;
+	if(imgPosX<0){
+		imgPosX=0;
+		xFlag=1;
+	}else if(imgPosX+img.width>window.innerWidth){
+		imgPosX=window.innerWidth-img.width;
+		xFlag=-1;
+	}
+
+	if(imgPosY<0){
+		imgPosY=0;
+		yFlag=1;
+	}else if(imgPosY+img.height>window.innerHeight){
+		imgPosY=window.innerHeight-img.height;
+		yFlag=-1;
+	}
+}
+
+function resumeOrPause(){
+	if(flag){
+		clearInterval(timer);
+		flag=false;
+	}else{
+		start();
+		flag=true;
+	}
+}
+
+function start(){
+	timer=setInterval("changePosition()",100);
+}
+
+var img=document.getElementById("fly");
+var imgPosX=0;//图像left
+var imgPosY=0;//图像top
+var step=20;//图像移动的步长，水平和垂直方向移动同样距离
+var flag=true;//是否停止图片运动
+var timer;//计时器id
+var xFlag=1;//x方向增或减（1或-1）
+var yFlag=1;//y方向增或减（1或-1）
+
+start();
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>✨闪烁特效</title>
+<script type="text/javascript">
+	var flag=0;
+	function ChangeTitle(){
+		switch(flag){
+			case 0:
+			document.title=" ☀️ ";
+			flag=1;
+			break;
+			case 1:
+			document.title="✨闪烁特效";
+			flag=0;
+			break;
+			default:
+			break;
+		}
+	}
+	setInterval(ChangeTitle,1000);
+</script>
+</head>
+<body></body>
+</html>

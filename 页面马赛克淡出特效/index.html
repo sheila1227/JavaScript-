@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>demo</title>
+<style>
+.intro{position:absolute;
+left:0;
+top:0;
+background-color:green;
+border:0.1px solid green;
+}
+</style>
+</head>
+<body>
+<img src="1.jpg" style="width:100%;height: 100%"/> 
+<div id="i1" class="intro"></div>
+<SCRIPT language=javascript>
+var temp=new Array();
+var totalMosaicXNum=5;
+var totalMosaicYNum=5;
+var tileWidth=window.innerWidth/totalMosaicXNum;
+var tileHeight=window.innerHeight/totalMosaicYNum;
+var totalMosaicNum=totalMosaicXNum*totalMosaicYNum;
+//生成25个马赛克格子，覆盖整个页面
+for(var i=0;i<totalMosaicNum;i++){
+	var node=document.createElement("div");
+	node.className="intro";
+	node.style.width=tileWidth;
+	node.style.height=tileHeight;
+	node.style.top=Math.floor(i/totalMosaicXNum)*tileHeight;
+	node.style.left=i%totalMosaicXNum*tileWidth;
+	document.getElementsByTagName("body")[0].appendChild(node);
+	temp.push(node);
+}
+
+
+function ChangeOpacity(){
+	transDeg--;
+	for(var i=0;i<totalMosaicNum;i++){
+		temp[i].style.opacity=transDeg/100;
+		temp[i].style.filter="Alpha(Opacity="+transDeg+")";
+
+		if(transDeg==0){
+			temp[i].style.visibility="hidden";
+			clearInterval(flag);
+		}
+	}
+
+}
+var transDeg=100;//起始透明度
+var flag=setInterval("ChangeOpacity()",100);
+var counter=0;
+</SCRIPT>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>demo</title>
+<style>
+.pic{
+	width: 35px;
+	height: 90px;
+	border-style: none;
+}
+</style>
+</head>
+<body>
+<h1>液晶电子表</h1>
+<div id="watch" align="center" style="background-color: pink">
+	<img name="img1" alt="img1" class="pic"/>
+	<img name="img2" alt="img2"  class="pic"/>
+	<img name="img3" alt="img3" src="colon.png" class="pic"/>
+	<img name="img4" alt="img4"  class="pic"/>
+	<img name="img5" alt="img5"  class="pic"/>
+	<img name="img6" alt="img6" src="colon.png"  class="pic" />
+	<img name="img7" alt="img7"  class="pic"/>
+	<img name="img8" alt="img8"  class="pic"/>
+	<img name="img9" alt="img9"  class="pic" style="width:70px" />
+</div>
+
+
+
+<SCRIPT language=javascript>
+function RefreshTime(){
+	var dt=new Date();
+	var hour=dt.getHours();
+	var min=dt.getMinutes();
+	var sec=dt.getSeconds();
+	if((hour>=12&&min>=1)||hour>=13){
+		hour-=12;
+		document.images.img9.src="pm.png";
+	}else{
+		document.images.img9.src="am.png";
+	}
+	document.images.img1.src=Math.floor(hour/10)+".png";
+	document.images.img2.src=hour%10+".png";
+	document.images.img4.src=Math.floor(min/10)+".png";
+	document.images.img5.src=min%10+".png";
+	document.images.img7.src=Math.floor(sec/10)+".png";
+	document.images.img8.src=sec%10+".png";
+
+	setTimeout("RefreshTime()",1000);
+}
+RefreshTime();
+</SCRIPT>
+</body>
+</html>

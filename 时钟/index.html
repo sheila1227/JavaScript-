@@ -1,0 +1,132 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>demo</title>
+<style>
+.pic{
+	width: 35px;
+	height: 90px;
+	border-style: none;
+}
+</style>
+</head>
+<body>
+<h1>时钟</h1>
+<div id="clock" align="center" style="width:100%;height:100%;background-color: pink;position:relative">
+
+</div>
+
+
+
+<SCRIPT language=javascript>
+var content=document.getElementById("clock");
+var centerX=window.innerWidth/2;
+var centerY=window.innerHeight/2;
+var radius=200;//表盘半径
+var secHand="***********".split('');
+var minHand="********".split('');
+var hourHand="******".split('');
+var secColor="red";
+var minColor="green";
+var hourColor="blue";
+var secLength=170;
+var minLength=120;
+var hourLength=70;
+var secDivs=new Array();
+var minDivs=new Array();
+var hourDivs=new Array(); 
+
+//秒针
+for(var i=0;i<secHand.length;i++){
+	var node=document.createElement("div");
+	node.innerHTML=secHand[i];
+	node.style.fontSize=20;
+	node.style.position="absolute";
+	node.style.color=secColor;
+	content.appendChild(node);
+	secDivs.push(node);
+}
+
+//分针
+for(var i=0;i<minHand.length;i++){
+	var node=document.createElement("div");
+	node.innerHTML=minHand[i];
+	node.style.fontSize=20;
+	node.style.position="absolute";
+	node.style.color=minColor;
+	content.appendChild(node);
+	minDivs.push(node);
+}
+
+//时针
+for(var i=0;i<hourHand.length;i++){
+	var node=document.createElement("div");
+	node.innerHTML=hourHand[i];
+	node.style.fontSize=20;
+	node.style.position="absolute";
+	node.style.color=hourColor;
+	content.appendChild(node);
+	hourDivs.push(node);
+}
+
+//准备表盘的中心点
+function DrawCenter(){
+	var node=document.createElement("div");
+	node.innerHTML="。";
+	node.style.top=centerY;
+	node.style.left=centerX;
+	node.style.fontSize=20;
+	node.style.position="absolute";
+	content.appendChild(node);
+}
+//准备十二个表盘上的十二个点
+function Draw12Points(){
+	for(var i=0;i<12;i++){
+       var angle=Math.PI/6*i;
+       var x=Math.sin(angle)*radius+centerX;
+       var y=centerY-Math.cos(angle)*radius;
+       var node=document.createElement("div");
+       node.style.position="absolute";
+       node.style.top=y;
+       node.style.left=x;
+       node.style.fontSize=12;
+       node.innerHTML=(i==0)?12:i;
+       content.appendChild(node);
+
+	}
+}
+function RefreshTime(){
+	var dt=new Date();
+	var hour=dt.getHours();
+	var min=dt.getMinutes();
+	var sec=dt.getSeconds();
+	var secAngle=Math.PI/30*sec;
+	var minAngle=Math.PI/30*min;
+	var hourAngle=Math.PI/30*(hour*5+min/12);
+	for(var i=0;i<secDivs.length;i++){
+    	var x=Math.sin(secAngle)*secLength*(i+1)/secDivs.length+centerX;
+    	var y=centerY-Math.cos(secAngle)*secLength*(i+1)/secDivs.length;
+    	secDivs[i].style.top=y;
+    	secDivs[i].style.left=x;
+	}
+	for(var i=0;i<minDivs.length;i++){
+    	var x=Math.sin(minAngle)*minLength*(i+1)/minDivs.length+centerX;
+    	var y=centerY-Math.cos(minAngle)*minLength*(i+1)/minDivs.length;
+    	minDivs[i].style.top=y;
+    	minDivs[i].style.left=x;	
+	}
+	for(var i=0;i<hourDivs.length;i++){	
+    	var x=Math.sin(hourAngle)*hourLength*(i+1)/hourDivs.length+centerX;
+    	var y=centerY-Math.cos(hourAngle)*hourLength*(i+1)/hourDivs.length;
+    	hourDivs[i].style.top=y;
+    	hourDivs[i].style.left=x;	
+	}
+	setTimeout("RefreshTime()",1000);
+}
+
+DrawCenter();
+Draw12Points();
+RefreshTime();
+</SCRIPT>
+</body>
+</html>

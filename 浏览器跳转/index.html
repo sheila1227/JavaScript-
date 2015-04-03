@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>index1</title>
+</head>
+<body>
+	<script type="text/javascript">
+	document.write("浏览器代码名称："+navigator.appCodeName+"<br/>");
+	document.write("浏览器名称:"+navigator.appName+"<br/>");
+	document.write("浏览器版本号："+navigator.appVersion+"<br/>");
+	document.write("用户代理："+navigator.userAgent+"<br/>");
+
+	var appname=navigator.appName;
+	var ie=appname.indexOf("Microsoft");
+	var ns=appname.indexOf("Netscape");
+	var loc;
+	if(ie!=-1){
+		document.write("正在使用的是ie<br/>");
+		document.write("5s后将自动跳转");
+		loc="index1.html";
+	}
+	else if(ns!=-1){
+			document.write("正在使用的是netscape<br/>");
+		document.write("5s后将自动跳转");
+		loc="index2.html";
+	}
+	function Jump(){
+		window.location=loc;
+	}
+	setTimeout("Jump()",5000);
+	</script>
+</body>
+</html>

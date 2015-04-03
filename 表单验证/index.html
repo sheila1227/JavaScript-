@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>表单验证</title>
+</head>
+<body>
+	<h1>表单字段验证</h1>
+	<form name="myForm" action="http://www.baidu.com" method="post" onsubmit="return validate();">
+	name：<input type="text" name="userName" onblur="check_blank(myForm.userName,'name');checkLetOrNum(myForm.userName,'name')" /><br/>
+	
+	<input type="submit" value="send"/>
+	<input type="reset" value="reset"/>
+	</form>
+
+	<script>
+
+	function validate(){
+		var v=check_blank(myForm.userName,"name");
+		if(v){
+		return checkLetOrNum(myForm.userName,"name");
+	}else{
+		return false;
+	}
+	}
+	
+
+	//验证只能是字母或数字
+	function checkLetOrNum(obj,obj_name){
+		var reg=/^[a-zA-Z0-9]*$/;
+		if(!reg.test(obj.value)){
+			alert(obj_name+"必须输入字母或数字");
+obj.value="";
+obj.focus();
+return false;
+		}
+	}
+	//验证是否为空
+	function check_blank(obj,obj_name){
+		if(obj.value!=""){
+			return true;
+		}
+		else
+		{
+			alert(obj_name+"不能为空");
+			obj.value="";
+			return false;
+		}
+	}
+	</script>
+</body>
+</html>
