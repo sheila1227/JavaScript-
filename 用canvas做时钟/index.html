@@ -1,0 +1,118 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>DEMO</title>
+<style>
+body{
+	text-align: center
+}
+
+#cnsClock{
+	margin:auto;
+}
+</style>
+
+<script>
+window.onload=function(){
+	window.requestAnimationFrame(clockTick);
+}
+
+function clockTick(){
+ var ctx=document.getElementById("cnsClock").getContext('2d');
+ ctx.clearRect(0,0,300,300);
+
+ ctx.save();
+ ctx.translate(150,150);
+ ctx.lineCap="round";
+ ctx.save();
+
+  //hour marks
+ ctx.lineWidth=2;
+ for(var i=0;i<12;i++){
+ 	ctx.beginPath();
+ 	ctx.rotate(Math.PI/6);
+ 	ctx.moveTo(0,100);
+ 	ctx.lineTo(0,80);
+ 	ctx.stroke();
+ }
+
+//minute marks
+ctx.lineWidth=1;
+for(var i=0;i<60;i++){
+	if(i%5!=0){
+		ctx.beginPath();
+		ctx.moveTo(0,100);
+		ctx.lineTo(0,90);
+		ctx.stroke();
+	}
+	ctx.rotate(Math.PI/30);
+}
+ctx.restore();
+
+
+var now=new Date();
+var hour=now.getHours();
+var min=now.getMinutes();
+var sec=now.getSeconds();
+hour=hour>=12?hour-12:hour;
+//write hours
+ctx.save();
+ctx.rotate((hour+min/60+sec/3600)*Math.PI/6);
+ctx.lineWidth=3;
+ctx.beginPath();
+ctx.moveTo(0,10);
+ctx.lineTo(0,-50);
+ctx.stroke();
+ctx.restore();
+//write minutes
+ctx.save();
+ctx.rotate((min+sec/60)*Math.PI/30);
+ctx.lineWidth=2;
+ctx.beginPath();
+ctx.moveTo(0,13);
+ctx.lineTo(0,-70);
+ctx.stroke();
+ctx.restore();
+//write seconds
+ctx.save();
+ctx.rotate(sec*Math.PI/30);
+ctx.lineWidth=1;
+ctx.strokeStyle="#CF2802";
+ctx.fillStyle="#CF2802";
+ctx.beginPath();
+ctx.moveTo(0,18);
+ctx.lineTo(0,0);
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(0,0,5,0,Math.PI*2,true);
+ctx.fill();
+ctx.beginPath();
+ctx.moveTo(0,-5);
+ctx.lineTo(0,-80);
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(0,-85,5,0,Math.PI*2,true);
+ctx.stroke();
+ctx.restore();
+
+ //外圈表盘
+ 
+ ctx.lineWidth=5;
+ ctx.strokeStyle="#9230A6";
+ ctx.beginPath();
+ ctx.arc(0,0,100,0,Math.PI*2,false);
+ ctx.stroke();
+ ctx.restore();
+
+ window.requestAnimationFrame(clockTick);
+}
+
+
+</script>
+</head>
+<body>
+<canvas id="cnsClock" width="300" height="300">
+您的浏览器不支持canvas
+</canvas>
+</body>
+</html>
