@@ -1,0 +1,135 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>demo</title>
+<style>
+</style>
+
+<script>
+window.onload=function(){
+	var snowScene=new SnowScene("cnsSnow","canvas.png",200);
+	renderAndUpdate.snowScene=snowScene;
+	setInterval(renderAndUpdate,100);
+}
+
+function renderAndUpdate(){
+	renderAndUpdate.snowScene.render();
+	renderAndUpdate.snowScene.update();
+}
+
+function SnowScene(canvasID,imgSrc,snowFlakeNum){
+	this.ctx=document.getElementById(canvasID).getContext('2d');
+
+	this.image=getImageFromSrc(imgSrc);
+	this.width=this.ctx.canvas.width;
+	this.height=this.ctx.canvas.height;
+	this.snowFlakes=getAllSnowFlakes(this.width,this.height,snowFlakeNum);
+
+}
+
+	function getAllSnowFlakes(width,height,snowFlakeNum){
+		var snowFlakeSetting=new SnowFlakeSetting(0,width,0,height,5,15,5,15,2,8,0.5,0.9);
+		var allSnowFlakes=new Array();
+		for(var i=0;i<snowFlakeNum;i++){
+			var snowFlake=new SnowFlake(snowFlakeSetting);
+			allSnowFlakes.push(snowFlake);
+		}
+		return allSnowFlakes;
+	}
+
+SnowScene.prototype.render=function(){
+	this.ctx.clearRect(0,0,this.width,this.height);
+	this.ctx.drawImage(this.image,0,0);
+	for(var i=0;i<this.snowFlakes.length;i++){
+		this.snowFlakes[i].render(this.ctx);
+	}
+}
+
+SnowScene.prototype.update=function(){
+	for(var i=0;i<this.snowFlakes.length;i++){
+		this.snowFlakes[i].update();
+	}
+}
+
+
+//雪花对象
+function SnowFlake(snowFlakeSetting){
+	this.snowFlakeSetting=snowFlakeSetting;
+	this.initialX=getRandomNum(snowFlakeSetting.minX,snowFlakeSetting.maxX);
+	this.x=this.initialX;
+	this.y=getRandomNum(snowFlakeSetting.minY,snowFlakeSetting.maxY);
+	this.stepX=getRandomNum(snowFlakeSetting.minStepX,snowFlakeSetting.maxStepX);
+	this.stepY=getRandomNum(snowFlakeSetting.minStepY,snowFlakeSetting.maxStepY);
+	this.radius=getRandomNum(snowFlakeSetting.minRaius,snowFlakeSetting.maxRadius);
+	this.alpha=getRandomNum(snowFlakeSetting.minAlpha,snowFlakeSetting.maxAlpha);
+	this.angle=getRandomNum(0,Math.PI);
+
+}
+
+SnowFlake.prototype.render=function(canvasContext){
+	canvasContext.fillStyle="rgba(255,255,255,"+this.alpha+")";
+	canvasContext.beginPath();
+	canvasContext.arc(this.x,this.y,this.radius,0,Math.PI*2,true);
+	canvasContext.fill();
+}
+
+SnowFlake.prototype.update=function(){
+	this.angle+=0.05;
+	if(this.angle>Math.PI*2){
+		this.angle-=Math.PI;
+	}
+	this.x=this.initialX+this.stepX*Math.sin(this.angle);
+	this.y+=this.stepY;
+	if(this.y>this.snowFlakeSetting.maxY){
+		this.y-=this.snowFlakeSetting.maxY;
+	}
+
+}
+
+/**
+ * [SnowFlakeSetting description]
+ * @param {[type]}
+ * @param {[type]}
+ * @param {[type]}
+ * @param {[type]}
+ * @param {[type]}
+ * @param {[type]}
+ * @param {[type]}
+ * @param {[type]}
+ * @param {[type]}
+ * @param {[type]}
+ */
+function SnowFlakeSetting(minX,maxX,minY,maxY,minStepX,maxStepX,minStepY,maxStepY,minRaius,maxRadius,minAlpha,maxAlpha){
+	this.minX=minX;
+	this.maxX=maxX;
+	this.minY=minY;
+	this.maxY=maxY;
+	this.minStepX=minStepX;
+	this.maxStepX=maxStepX;
+	this.minStepY=minStepY;
+	this.maxStepY=maxStepY;
+	this.minRaius=minRaius;
+	this.maxRadius=maxRadius;
+	this.minAlpha=minAlpha;
+	this.maxAlpha=maxAlpha;
+}
+
+//获取image element
+function getImageFromSrc(imgSrc){
+	var image=new Image();
+	image.src=imgSrc;
+	return image;
+}
+
+//获取两值之间随机值
+function getRandomNum(minNum,maxNum){
+	return Math.random()*(maxNum-minNum)+minNum;
+}
+</script>
+</head>
+<body>
+<canvas id="cnsSnow" width="1024" height="798">
+您的浏览器不支持HTML5 canvas 标签
+</canvas>
+</body>
+</html>
